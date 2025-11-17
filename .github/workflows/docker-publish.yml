@@ -33,7 +33,9 @@ jobs:
       - name: generate image tag
         run: |
           echo "IMAGE_TAG=$(date + %s)" >> $GITHUB_ENV
-        uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+      - name: Checkout repository
         run: |
           docker build . --tag ghcr.io/kecske5000/test-ci-cd:$IMAGE_TAG
           docker login ghcr.io -u kecske5000 -p ${{ secrets.GHCR_TOKEN }}
