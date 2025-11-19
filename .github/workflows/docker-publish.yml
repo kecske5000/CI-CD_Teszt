@@ -7,7 +7,7 @@ name: Docker
 
 on:
   # schedule:
-  #   - cron: '44 4 * * *'
+  #  - cron: '33 14 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -15,29 +15,30 @@ on:
   pull_request:
     branches: [ "main" ]
 
-    # lehetővé teszi, hogy "kézzel" elindítsam a folyamatot
-    workflow_dispatch:
+  # lehetővé teszi, hogy "kézzel" elindítsam a folyamatot
+  workflow_dispatch:
 
-# env:
+#env:
   # Use docker.io for Docker Hub if empty
   # REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   # IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: generate image tag
-        run: |
-          echo "IMAGE_TAG=$(date +%s)" >> $GITHUB_ENV
+    - name: generate image tag
+      run: |
+        echo "IMAGE_TAG=$(date +%s)" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
-      - name: Checkout repository
-        run: |
-          docker build . --file Dockerfile  --tag ghcr.io/kecske5000/test-cicd:$IMAGE_TAG
-          docker login ghcr.io -u kecske5000 -p ${{ secrets.GHCR_TOKEN }}
-          docker push ghcr.io/kecske5000/test-cicd:$IMAGE_TAG
+    - uses: actions/checkout@v4
+    - name: Checkout repository
+      run: | 
+        docker build . --file Dockerfile  --tag ghcr.io/kecske5000/test-cicd:$IMAGE_TAG
+        docker login ghcr.io -u kecske5000 -p ${{ secrets.GHCR_TOKEN }}
+        docker push ghcr.io/kecske5000/test-cicd:$IMAGE_TAG
+    
+
